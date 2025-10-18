@@ -10,12 +10,13 @@ gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'devise'
+gem 'irb'
+gem 'jwt'
+gem 'pry'
 gem 'puma', '>= 5.0'
 gem 'rswag-api'
 gem 'rswag-specs'
 gem 'rswag-ui'
-gem 'jwt'
-gem 'pry'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 gem 'ruby_llm'

@@ -1,22 +1,50 @@
 class ChatsController < ApplicationController
 
+  def index
+    chats = @current_user.chats.select(:id, :title, :created_at)
+
+    render json: { chats: }, status: :ok
+  end
+
+  def show
+    messages = Chat.find(params[:id]).messages.order(created_at: :desc).select(:id, :content, :role, :created_at)
+
+    render json: { messages: }, status: :ok
+  end
+
   def create
-    chat = RubyLLM.chat
+    chat = Chat.create(user_id: @current_user.id, title: 'sandro')
 
-    answer = chat.ask(prompt)
+    data = { chat:, status: :ok }
 
-    response = JSON.parse(answer.content)
-
-    data = { response:, status: :ok }
-    print(response.content)
     render json: data, status: data[:status]
+  end
+
+  def send_message
+    chat = Chat.find(params[:id])
+    user_message = Message.create!(role: :user, content: message, chat_id: chat.id)
+
+    context = @chat.messages.order(:created_at).map do |msg|
+      { role: msg.role, content: msg.content }
+    end
+
+    llm_chat = RubyLLM.chat
+    answer = llm_chat.ask(prompt)
+
+    assistant_response = begin
+      JSON.parse(answer.content)
+    rescue StandardError
+      { text: answer.content }
+    end
+
+    chat.messages.create!(role: :assistant, content: assistant_response)
+
+    render json: { user: user_message, assistant: assistant_response }, status: :ok
   end
 
   private
 
   def prompt
-    message = params[:chat][:prompt]
-
     "You are a medical assistant AI. Based on the following patient information, analyze the described symptoms and
      suggest possible conditions and what kind of doctor the patient should see.
      Patient details:
@@ -38,5 +66,9 @@ class ChatsController < ApplicationController
 
     Respond ONLY with valid JSON (no markdown, no code block, no escape characters, no extra text). Use this structure exactly:
     {'brief_summary': '...', 'possible_conditions'': '...', 'recommended_specialists': ['...', '...']}"
+  end
+
+  def message
+    params[:chat][:prompt]
   end
 end
