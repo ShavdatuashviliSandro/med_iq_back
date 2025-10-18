@@ -3,9 +3,11 @@ class ChatsController < ApplicationController
   def create
     chat = RubyLLM.chat
 
-    response = chat.ask(prompt)
+    answer = chat.ask(prompt)
 
-    data = { response: response.content, status: :ok }
+    response = JSON.parse(answer.content)
+
+    data = { response:, status: :ok }
     print(response.content)
     render json: data, status: data[:status]
   end
@@ -15,7 +17,8 @@ class ChatsController < ApplicationController
   def prompt
     message = params[:chat][:prompt]
 
-    "You are a medical assistant AI. Based on the following patient information, analyze the described symptoms and suggest possible conditions and what kind of doctor the patient should see.
+    "You are a medical assistant AI. Based on the following patient information, analyze the described symptoms and
+     suggest possible conditions and what kind of doctor the patient should see.
      Patient details:
      Name: #{@current_user&.first_name} #{@current_user&.last_name}
      Gender: #{@current_user&.gender}
@@ -31,10 +34,9 @@ class ChatsController < ApplicationController
      Known Allergies: #{@current_user&.known_allergies || 'None reported'}
      Chronic Conditions: #{@current_user&.chronic_conditions || 'None reported'}
      Pregnancy Status: #{@current_user&.pregnancy_status || 'Not applicable'}
-     Patient’s report:
-     #{message}.
+     Patient’s report: #{message}.
 
-     Please respond with: Short possible medical conditions or diseases related to these symptoms and
-     Very short recommended type(s) of medical specialist(s) or clinic to consult."
+    Respond ONLY with valid JSON (no markdown, no code block, no escape characters, no extra text). Use this structure exactly:
+    {'brief_summary': '...', 'possible_conditions'': '...', 'recommended_specialists': ['...', '...']}"
   end
 end
