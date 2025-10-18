@@ -131,6 +131,8 @@ GEM
     json-schema (5.2.2)
       addressable (~> 2.8)
       bigdecimal (~> 3.1)
+    jwt (3.1.2)
+      base64
     logger (1.7.0)
     loofah (2.24.1)
       crass (~> 1.0.2)
@@ -272,6 +274,7 @@ DEPENDENCIES
   debug
   devise
   dotenv-rails
+  jwt
   pg (~> 1.1)
   puma (>= 5.0)
   rack-cors
