@@ -24,9 +24,9 @@ class ChatsController < ApplicationController
     chat = Chat.find(params[:id])
     Message.create!(role: :user, content: message, chat_id: chat.id)
 
-    # context = chat.messages.order(:created_at).map do |msg|
-    #   { role: msg.role, content: msg.content }
-    # end
+    context = RubyLLM::Context.new(messages: chat.messages.order(:created_at).map { |msg|
+      { role: msg.role, content: msg.content }
+    })
 
     llm_chat = RubyLLM.chat
     answer = llm_chat.ask(prompt)
