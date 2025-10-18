@@ -13,7 +13,7 @@ class ChatsController < ApplicationController
   end
 
   def create
-    chat = Chat.create(user_id: @current_user.id, title: 'sandro')
+    chat = Chat.create(user_id: @current_user.id, title: 'New chat')
 
     data = { chat:, status: :ok }
 
@@ -22,11 +22,11 @@ class ChatsController < ApplicationController
 
   def send_message
     chat = Chat.find(params[:id])
-    user_message = Message.create!(role: :user, content: message, chat_id: chat.id)
+    Message.create!(role: :user, content: message, chat_id: chat.id)
 
-    context = @chat.messages.order(:created_at).map do |msg|
-      { role: msg.role, content: msg.content }
-    end
+    # context = chat.messages.order(:created_at).map do |msg|
+    #   { role: msg.role, content: msg.content }
+    # end
 
     llm_chat = RubyLLM.chat
     answer = llm_chat.ask(prompt)
@@ -38,15 +38,16 @@ class ChatsController < ApplicationController
     end
 
     chat.messages.create!(role: :assistant, content: assistant_response)
+    chat.update(title: assistant_response['chat_title'])
 
-    render json: { user: user_message, assistant: assistant_response }, status: :ok
+    render json: { assistant: assistant_response }, status: :ok
   end
 
   private
 
   def prompt
     "You are a medical assistant AI. Based on the following patient information, analyze the described symptoms and
-     suggest possible conditions and what kind of doctor the patient should see.
+     suggest possible conditions and what kind of doctor the patient should see and give me general title of chat.
      Patient details:
      Name: #{@current_user&.first_name} #{@current_user&.last_name}
      Gender: #{@current_user&.gender}
@@ -65,7 +66,7 @@ class ChatsController < ApplicationController
      Patient’s report: #{message}.
 
     Respond ONLY with valid JSON (no markdown, no code block, no escape characters, no extra text). Use this structure exactly:
-    {'brief_summary': '...', 'possible_conditions'': '...', 'recommended_specialists': ['...', '...']}"
+    {'chat_title': '...(heart pain)', 'brief_summary': '...', 'possible_conditions'': '...', 'recommended_specialists': ['...', '...']}"
   end
 
   def message
