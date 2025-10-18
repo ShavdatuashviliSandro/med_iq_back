@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_18_153906) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_18_174628) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -97,6 +97,29 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_18_153906) do
     t.index ["message_id"], name: "index_tool_calls_on_message_id"
     t.index ["name"], name: "index_tool_calls_on_name"
     t.index ["tool_call_id"], name: "index_tool_calls_on_tool_call_id", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "gender", null: false
+    t.date "date_of_birth", null: false
+    t.string "country", null: false
+    t.string "city", null: false
+    t.string "phone_number", null: false
+    t.integer "height_cm", null: false
+    t.integer "weight_kg", null: false
+    t.string "blood_type"
+    t.string "smoking_status"
+    t.string "alcohol_use"
+    t.string "activity_level"
+    t.text "known_allergies"
+    t.text "chronic_conditions"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "password_digest"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

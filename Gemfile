@@ -9,7 +9,12 @@ gem 'rails', '~> 7.1.5', '>= 7.1.5.2'
 gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
+gem 'devise'
 gem 'puma', '>= 5.0'
+gem 'rswag-api'
+gem 'rswag-specs'
+gem 'rswag-ui'
+
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
@@ -39,9 +44,9 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[ mri windows ]
 end
+gem 'dotenv-rails', groups: [:development, :test]
 gem 'rack-cors'
 gem 'turbo-rails'
-gem 'dotenv-rails', groups: [:development, :test]
 
 
 group :development do
