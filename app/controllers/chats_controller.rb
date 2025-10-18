@@ -20,7 +20,7 @@ class ChatsController < ApplicationController
      Name: #{@current_user&.first_name} #{@current_user&.last_name}
      Gender: #{@current_user&.gender}
      Age: #{@current_user&.age} years
-     Country: #{@current_user.&country}
+     Country: #{@current_user&.country}
      City: #{@current_user&.city}
      Height: #{@current_user&.height_cm} cm
      Weight: #{@current_user&.weight_kg} kg
@@ -34,7 +34,7 @@ class ChatsController < ApplicationController
      Patient’s report:
      #{message}.
 
-     Please respond with: Possible medical conditions or diseases related to these symptoms.
-     Recommended type(s) of medical specialist(s) or clinic to consult."
+     Please respond with: Short possible medical conditions or diseases related to these symptoms and
+     Very short recommended type(s) of medical specialist(s) or clinic to consult."
   end
 end
