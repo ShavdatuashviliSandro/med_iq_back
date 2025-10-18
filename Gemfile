@@ -40,13 +40,9 @@ group :development, :test do
   gem 'debug', platforms: %i[ mri windows ]
 end
 gem 'rack-cors'
-<<<<<<< HEAD
 gem 'turbo-rails'
 gem 'dotenv-rails', groups: [:development, :test]
 
-=======
-gem "turbo-rails"
->>>>>>> c3d57d9... Added gem
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
