@@ -18,13 +18,6 @@ class UserService
 
 
 
-  def exists?
-    @user.present?
-  end
-
-  def success?
-    @errors.empty?
-  end
 
   private
 

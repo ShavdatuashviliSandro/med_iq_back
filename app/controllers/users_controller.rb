@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   def edit
 
-    if current_user.exists?
+    if @current_user.present?
       render json: { user: current_user }, status: :ok
     else
       render json: { errors: current_user.errors.full_messages }, status: :not_found
