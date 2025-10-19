@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   devise_for :users
+
   resources :chats, only: %i[create index show] do
     collection do
       post 'send_message'
@@ -12,6 +13,12 @@ Rails.application.routes.draw do
     collection do
       post 'register'
       post 'login'
+    end
+  end
+
+  resources :doctors, only: %i[] do
+    collection do
+      post 'fetch_doctors'
     end
   end
 end
