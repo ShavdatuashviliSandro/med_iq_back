@@ -26,7 +26,7 @@ class BookingsController < ApplicationController
     rating_count = doctor.rating_count += 1
     doctor.rating += params[:rating]
 
-    doctor.update(average_rating: doctor.rating / rating_count)
+    doctor.update!(average_rating: doctor.rating / rating_count)
 
     render json: doctor
   end
