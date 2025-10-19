@@ -5,7 +5,7 @@ module Auth
     end
 
     def register
-      user = User.new(user_params)
+      user = User.new(@params)
 
       if user.save
         { success: true }
@@ -20,7 +20,7 @@ module Auth
       if user&.authenticate(@params[:password])
         access_token = JsonWebTokenService.encode(user_id: user&.id)
 
-        { user:, access_token: }
+        { user:, access_token:, success: true }
       else
         { error: 'Invalid email or password' }
       end

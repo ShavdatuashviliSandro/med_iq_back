@@ -1,24 +1,24 @@
 class BookingsController < ApplicationController
   def index
-    data = Booking::BookingsService.new(@current_user).index
+    data = Bookings::BookingsService.new(@current_user).index
 
     render json: data
   end
 
   def create
-    data = Booking::BookingsService.new(@current_user, create_params).create
+    data = Bookings::BookingsService.new(@current_user, create_params).create
 
     render json: data
   end
 
   def cancel_booking
-    data = Booking::BookingsService.new(@current_user, params).cancel_booking
+    data = Bookings::BookingsService.new(@current_user, params).cancel_booking
 
     render json: data
   end
 
   def rate_booking_doctor
-    data = Booking::BookingsService.new(@current_user, params).rate_booking_doctor
+    data = Bookings::BookingsService.new(@current_user, params).rate_booking_doctor
 
     render json: data
   end

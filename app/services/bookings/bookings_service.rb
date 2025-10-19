@@ -1,4 +1,5 @@
-module Booking
+# frozen_string_literal: true
+module Bookings
   class BookingsService
     def initialize(current_user = nil, params = nil)
       @current_user = current_user

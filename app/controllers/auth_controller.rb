@@ -7,14 +7,16 @@ class AuthController < ApplicationController
   def register
     data = Auth::AuthService.new(user_params).register
 
-    render json: data, status: :created if data[:success]
+    return render json: data, status: :created if data[:success]
+
     render json: { errors: data }, status: :unprocessable_entity
   end
 
   def login
     data = Auth::AuthService.new(params).login
 
-    render json: data, status: :ok if data[:success]
+    return render json: data, status: :ok if data[:success]
+
     render json: { errors: data }, status: :unauthorized
   end
 

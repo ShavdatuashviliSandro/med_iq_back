@@ -1,4 +1,4 @@
-module Chat
+module Chats
   class ChatsService
     def initialize(current_user, params = nil)
       @current_user = current_user
@@ -39,6 +39,8 @@ module Chat
 
       chat.messages.create!(role: :assistant, content: assistant_response)
       chat.update(title: assistant_response['chat_title'])
+
+      assistant_response
     end
 
     def build_prompt(message, previous_messages = [])
@@ -51,7 +53,7 @@ module Chat
       <<~PROMPT
         #{context_text}
 
-        You are a medical assistant AI. Review the patient's case and suggest possible conditions in Georgian.#{' '}
+        You are a medical assistant AI. Review the patient's case and suggest possible conditions in Georgian Language.#{' '}
         Recommend specialists only from this list: #{enums.join(', ')}.#{' '}
         If a suitable specialist exists in the list, use it; otherwise, default to 'General Practitioner'.#{' '}
         Speak in the first person when addressing the patient (I/my/etc.), not third person.
@@ -94,7 +96,7 @@ module Chat
     end
 
     def message
-      params[:chat][:prompt]
+      @params[:chat][:prompt]
     end
   end
 end
