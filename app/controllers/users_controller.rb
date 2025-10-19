@@ -1,8 +1,6 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
-
   def update
-    data = UserService.new(@current_user).update(user_params)
+    data = UsersService.new(@current_user).update(user_params)
 
     render json: data, status: :ok
   end

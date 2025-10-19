@@ -23,5 +23,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :bookings, only: %i[create index]
+  resources :bookings, only: %i[create index] do
+    member do
+      put 'cancel_booking'
+    end
+
+    collection do
+      post 'rate_booking_doctor'
+    end
+  end
 end

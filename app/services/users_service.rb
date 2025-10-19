@@ -1,4 +1,4 @@
-class UserService
+class UsersService
   attr_reader :current_user, :errors
 
   def initialize(current_user)
@@ -10,13 +10,11 @@ class UserService
     return add_error('User not found') unless @current_user
 
     if @current_user.update(params)
-      {success: true}
+      @current_user
     else
       { success: false, errors: @current_user.errors.full_messages }
     end
   end
-
-
 
 
   private

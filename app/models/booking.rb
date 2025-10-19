@@ -1,3 +1,3 @@
 class Booking < ApplicationRecord
-  enum status: { pending: 'Upcoming', confirmed: 'Confirmed', cancelled: 'Cancelled' }
+  enum status: { pending: 'Upcoming', finished: 'Finished', cancelled: 'Cancelled' }
 end

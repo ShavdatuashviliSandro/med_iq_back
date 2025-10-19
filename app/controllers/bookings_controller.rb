@@ -7,8 +7,28 @@ class BookingsController < ApplicationController
 
   def create
     booking = Booking.create!(create_params)
+    booking.pending!
 
     render json: booking
+  end
+
+  def cancel_booking
+    booking = Booking.find(params[:id])
+
+    booking.update(status: :cancelled)
+
+    render json: booking
+  end
+
+  def rate_booking_doctor
+    doctor = Doctor.find(params[:id])
+
+    rating_count = doctor.rating_count += 1
+    doctor.rating += params[:rating]
+
+    doctor.update(average_rating: doctor.rating / rating_count)
+
+    render json: doctor
   end
 
   private
