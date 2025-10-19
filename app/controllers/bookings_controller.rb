@@ -27,7 +27,7 @@ class BookingsController < ApplicationController
     doctor.rating += params[:rating]
 
     doctor.update!(average_rating: doctor.rating / rating_count)
-    Booking.find(params[:booking_id]).update(last_user_rating: params[:last_user_rating])
+    Booking.find(params[:booking_id]).update(user_last_rating: params[:rating])
 
     render json: doctor
   end
