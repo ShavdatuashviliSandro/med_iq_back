@@ -1,9 +1,8 @@
-module Doctor
+module Doctors
   class DoctorsService
     def initialize(params)
       @params = params
     end
-    
     def fetch_doctors
       doctor_json = Doctor.all.as_json
 

@@ -57,6 +57,7 @@ module Chats
         Recommend specialists only from this list: #{enums.join(', ')}.#{' '}
         If a suitable specialist exists in the list, use it; otherwise, default to 'General Practitioner'.#{' '}
         Speak in the first person when addressing the patient (I/my/etc.), not third person.
+        Do not dry text user, give them gramatically correct sentences and the full context.
 
         Patient details:
         Name: #{@current_user&.first_name} #{@current_user&.last_name}
