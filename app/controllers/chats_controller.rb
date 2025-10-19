@@ -1,7 +1,7 @@
 class ChatsController < ApplicationController
 
   def index
-    chats = @current_user.chats.select(:id, :title, :created_at)
+    chats = @current_user.chats.select(:id, :title, :created_at).order(created_at: :desc)
 
     render json: { chats: }, status: :ok
   end
@@ -46,8 +46,11 @@ class ChatsController < ApplicationController
   private
 
   def prompt
-    "You are a medical assistant AI. Based on the following patient information, analyze the described symptoms and
-     suggest possible conditions and what kind of doctor the patient should see and give me general title of chat.
+    enums = fetch_specialty_enums
+
+    "You are a medical assistant AI. Based on the patient information and reported symptoms, analyze the case and suggest possible conditions.
+     When recommending specialists, ONLY use the following list: #{enums.join(', ')}.
+     If no suitable specialist is in this list, use 'General Practitioner' as default.
      Patient details:
      Name: #{@current_user&.first_name} #{@current_user&.last_name}
      Gender: #{@current_user&.gender}
@@ -67,6 +70,47 @@ class ChatsController < ApplicationController
 
     Respond ONLY with valid JSON (no markdown, no code block, no escape characters, no extra text). Use this structure exactly:
     {'chat_title': '...(heart pain)', 'brief_summary': '...', 'possible_conditions'': '...', 'recommended_specialists': ['...', '...']}"
+  end
+
+  def fetch_specialty_enums
+    ['General Practitioner',
+     'Cardiologist',
+     'Dermatologist',
+     'Neurologist',
+     'Endocrinologist',
+     'Pediatrician',
+     'Orthopedist',
+     'Psychiatrist',
+     'Gynecologist',
+     'Urologist',
+     'Ophthalmologist',
+     'Rheumatologist',
+     'Pulmonologist',
+     'Gastroenterologist',
+     'Oncologist',
+     'Anesthesiologist',
+     'Radiologist',
+     'Pathologist',
+     'Emergency Medicine',
+     'Sports Medicine',
+     'Plastic Surgeon',
+     'Nephrologist',
+     'Hematologist',
+     'Infectious Disease',
+     'Allergy & Immunology',
+     'Geriatrics',
+     'Otolaryngology',
+     'Family Medicine',
+     'Cardiothoracic Surgery',
+     'Rehabilitation Medicine',
+     'Vascular Surgery',
+     'Nutrition',
+     'Pain Management',
+     'Sleep Medicine',
+     'Occupational Medicine',
+     'Preventive Medicine',
+     'Aerospace Medicine',
+     'Telemedicine']
   end
 
   def message

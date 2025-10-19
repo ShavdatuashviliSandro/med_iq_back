@@ -22,4 +22,6 @@ Rails.application.routes.draw do
       post 'fetch_doctors'
     end
   end
+
+  resources :bookings, only: %i[create index]
 end
