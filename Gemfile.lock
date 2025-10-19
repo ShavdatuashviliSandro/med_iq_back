@@ -279,6 +279,7 @@ DEPENDENCIES
   debug
   devise
   dotenv-rails
+  irb
   jwt
   pg (~> 1.1)
   pry

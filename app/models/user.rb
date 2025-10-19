@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password
 
   validates :email, presence: true, uniqueness: true
+  has_many :chats, dependent: :destroy
 
   def age
     now = Time.zone.today
