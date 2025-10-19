@@ -16,6 +16,13 @@ class UsersService
     end
   end
 
+  def edit
+    if @current_user.present?
+      { user: @current_user }
+    else
+      { errors: @current_user.errors.full_messages }
+    end
+  end
 
   private
 

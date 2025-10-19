@@ -1,15 +1,7 @@
 class DoctorsController < ApplicationController
   def fetch_doctors
-    doctor_json = Doctor.all.as_json
+    data = Doctor::DoctorsService.new(params).fetch_doctors
 
-    specialties = params[:specialty]
-
-    doctors = if specialties.any?
-                doctor_json.select { |doc| specialties.include?(doc['specialty']) }
-              else
-                doctor_json.select { |doc| doc['specialty'] == 'General Practitioner' }
-              end
-
-    render json: doctors
+    render json: data
   end
 end

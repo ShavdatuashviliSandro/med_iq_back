@@ -6,12 +6,9 @@ class UsersController < ApplicationController
   end
 
   def edit
+    data = UsersService.new(@current_user).edit
 
-    if @current_user.present?
-      render json: { user: current_user }, status: :ok
-    else
-      render json: { errors: current_user.errors.full_messages }, status: :not_found
-    end
+    render json: data, status: :ok
   end
 
   private
