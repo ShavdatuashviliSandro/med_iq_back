@@ -56,8 +56,9 @@ class ChatsController < ApplicationController
     <<~PROMPT
       #{context_text}
 
-      You are a medical assistant AI. Analyze the patient's case and suggest possible conditions in Georgian. 
-      When recommending specialists, ONLY use the following list: #{enums.join(', ')}. 
+      You are a medical assistant AI. Analyze the patient's case and suggest possible conditions in Georgian.
+      When recommending specialists, ONLY use the following list: #{enums.join(', ')}.
+      If a suitable specialist from this list is present, use it.
       If no suitable specialist is in this list, use 'General Practitioner' as default.
       Speak in the first person when addressing the patient (I/my/etc.), not third person.
 
@@ -78,9 +79,11 @@ class ChatsController < ApplicationController
       Pregnancy Status: #{@current_user&.pregnancy_status || 'Not applicable'}
       Patient’s report: #{message}.
 
-      Respond **ONLY** with valid JSON using **double quotes** for keys and strings. 
-      Do NOT use markdown, code blocks, or escape characters. Include a confidence_level (0–100). 
-      The JSON must have this exact structure:
+      **Important Instructions**:
+      - Respond **ONLY** with raw JSON (no extra text, no markdown, no explanation, no "text" wrapper).  
+      - JSON must use **double quotes** for all keys and string values.  
+      - Include a **confidence_level** field (0–100).  
+      - The JSON must strictly follow this structure:
 
       {
         "chat_title": "...",
