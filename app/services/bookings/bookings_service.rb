@@ -11,7 +11,7 @@ module Bookings
     end
 
     def create
-      booking = Booking.create!(create_params)
+      booking = Booking.create!(@params)
       booking.pending!
 
       booking
