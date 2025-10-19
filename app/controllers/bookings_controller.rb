@@ -26,7 +26,8 @@ class BookingsController < ApplicationController
     rating_count = doctor.rating_count += 1
     doctor.rating += params[:rating]
 
-    doctor.update!(average_rating: doctor.rating / rating_count, last_user_rating: params[:last_user_rating])
+    doctor.update!(average_rating: doctor.rating / rating_count)
+    Booking.find(params[:booking_id]).update(last_user_rating: params[:last_user_rating])
 
     render json: doctor
   end
@@ -34,6 +35,7 @@ class BookingsController < ApplicationController
   private
 
   def create_params
-    params.require(:booking).permit(:doctor_name, :specialty, :appointment_date, :appointment_slot, :address, :user_id)
+    params.require(:booking).permit(:doctor_name, :specialty, :appointment_date, :appointment_slot, :address, :user_id,
+                                    :doctor_id)
   end
 end
